@@ -10,7 +10,66 @@
 #include <iostream>
 using namespace std;
 
+class list
+{
+	public:
+	     int data_;
+	    list *next;
+	    list *head;
+		list *temp;
+	   	
+		list(int d ):data_(d){}
+        
+		list & add(int n)
+		{
+			
+			next=head;
+			temp=new  list (n);
+			cout<<head->data_;
+			if(head==NULL)
+			{cout<<"-----"<<endl;
+				head=temp;
+				
+				return *this;
+			}
+			if(head->next==NULL)
+			{
+				head->next=temp;
+
+			}
+			else
+			{
+				while (next->next!=NULL)
+				{
+				   next=next->next;
+				}
+				next->next=temp;
+			}
+			return *this;
+		}
+		void print()
+		{
+			temp=head;
+		
+		}
+};
+
 int main() {
+	
+// 	family::Tree T("salamon");
+// 	// cout<<T.child->name<<endl;
+// 	T.addFather("salamon","tes");
+//     cout<<endl;
+//     T.addFather("tes","negos");
+//     cout<<endl;
+//     T.addFather("negos","thcgay");
+// 	cout<<endl;
+// 	T.addMother("salamon","sss");
+// 	T.addFather("thcgay","rffg");
+//    cout<<T.child->father->father->name<<endl;
+	
+  	// cout<<T.child->father->name<<endl;
+
 	family::Tree T ("Yosef"); // Yosef is the "root" of the tree (the youngest person).
 	T.addFather("Yosef", "Yaakov")   // Tells the tree that the father of Yosef is Yaakov.
 	 .addMother("Yosef", "Rachel")   // Tells the tree that the mother of Yosef is Rachel.
@@ -18,7 +77,9 @@ int main() {
 	 .addMother("Yaakov", "Rivka")
 	 .addFather("Isaac", "Avraham")
 	 .addFather("Avraham", "Terah");
-
+	 cout<<"---------------------"<<endl;
+	 T.search(*T.child,"0adad");
+       	 cout<<"---------------------"<<endl;
 	T.display();                        // displays the tree in a human-friendly format.
 
 	cout << T.relation("Yaakov") << endl;  // prints "father"
@@ -39,6 +100,6 @@ int main() {
 
 	T.remove("Avraham"); // removes Avraham and Terah
 	cout << T.relation("Terah") << endl;  // prints "unrelated"
-
+ 
     return 0;
 }
