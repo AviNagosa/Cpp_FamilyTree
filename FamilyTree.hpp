@@ -10,6 +10,7 @@ namespace family
       string name="";
       person * father=NULL;
       person *mother=NULL;
+      int index=1;
     };
     
 
@@ -38,7 +39,9 @@ namespace family
         std::string find(std::string);
         Tree remove(std::string);
 
-        void search(person &child ,string name);
+        void search(person &child ,string name,int i);
+      
+        int get_index(string person_name);
     };
 
 
