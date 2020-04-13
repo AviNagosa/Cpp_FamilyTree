@@ -1,24 +1,52 @@
 #include <stdexcept>
+#include <iostream>
 #include "FamilyTree.hpp"
+
+using namespace std;
 
 namespace family
 {
+    //empty constructor
     Tree::Tree(){}
-    Tree::~Tree(){}
-   
+
+    //constructor
     Tree::Tree(string name)
     { 
-       person *p=new person();
-       p->name=name;
-       this->child=p;
+       child = new person(name);
     }
+
+    //destractor
+    Tree::~Tree()
+    {
+        destroyTree(child);
+    } 
+
+
+    //destractor for every node
+    void Tree::destroyTree(person* node)
+    {
+        if (node!=NULL)
+        {
+            if(node->father!=NULL)
+            {
+                destroyTree(node->father);
+            }
+            if(node->mother!=NULL)
+            {
+                destroyTree(node->mother);
+            }
+            //cout<<"remove node"<<endl;
+            delete node;
+        }
+    }
+
 
 
     Tree& Tree::addFather(string s, string f)
     {
         search(*child,s,1);
 
-        person *p=new person();
+        person *p = new person();
         p->name=f;
 
         pointer->father=p;
@@ -27,11 +55,12 @@ namespace family
     }
 
 
-    Tree Tree::addMother(string s, string m)
+
+    Tree& Tree::addMother(string s, string m)
     {
         search(*child,s,1);
 
-        person *p=new person();
+        person *p = new person();
         p->name=m;
 
         pointer->mother=p;
@@ -40,6 +69,7 @@ namespace family
     }
 
    
+
     string Tree::relation(string a)
     {
         int index=get_index(a);
@@ -60,8 +90,9 @@ namespace family
         return relation;
     }
 
-    
-    int Tree ::get_index(string person_name)
+
+
+    int Tree::get_index(string person_name)
     {
         pointer=NULL;//Updating that the pointer is not currently pointing to anything
         
@@ -70,6 +101,7 @@ namespace family
         if(!pointer)return -1;//if the person is not exsits in the tree
         return pointer->index;
     }
+
 
 
     string Tree::find(string a)
@@ -83,7 +115,7 @@ namespace family
     With the help of a recursive search (search preorder) 
     in the tree as soon as we find the person we will update the pointer to point it out
     */
-    void Tree:: search(person & child ,string name,int i)
+    void Tree::search(person & child ,string name,int i)
     {
          child.index=i;
         //  cout<<child.name<<"---->";
@@ -110,13 +142,14 @@ namespace family
     }
 
 
+
+
     void Tree::remove(string a)
     {
 
     }
 	
 	
-
 
 
     //for the tree
@@ -128,6 +161,7 @@ namespace family
         }
         else cout<<"tree is empty"<<endl;
     }
+
 
 
     //for every node

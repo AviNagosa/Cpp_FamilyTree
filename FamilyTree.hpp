@@ -1,16 +1,28 @@
 #pragma once
-#include <iostream>
-
-using namespace std;
+#include <string>
 
 namespace family
 {
     struct person
     {
-      string name="";
-      person* father=NULL;
-      person* mother=NULL;
+      std::string name;
+      person* father;
+      person* mother;
       int index=1;
+
+      //empty constructor
+      person()
+      {
+          name = "";
+          father = mother = NULL;
+      }
+
+      //constructor
+      person(std::string n)
+      {
+          name = n;
+          father = mother = NULL;
+      }
     };
     
 
@@ -21,21 +33,22 @@ namespace family
         person* pointer;
          
         Tree();
-        Tree(string name);
+        Tree(std::string name);
         ~Tree();
+        void destroyTree(person*);
 
-        Tree& addFather(string, string);
-        Tree addMother(string, string);
+        Tree& addFather(std::string, std::string);
+        Tree& addMother(std::string, std::string);
 
-        string relation(string);
-        string find(string);
-        void remove(string);
+        std::string relation(std::string);
+        std::string find(std::string);
+        void remove(std::string);
 
-        void search(person &child ,string name,int i);
-        int get_index(string person_name);
+        void search(person &child ,std::string name,int i);
+        int get_index(std::string person_name);
 		
         void display();
-        void display(string,person&,bool);
+        void display(std::string,person&,bool);
     };
 
 
