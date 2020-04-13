@@ -1,6 +1,6 @@
 #pragma once
+#include <iostream>
 
-#include <string>
 using namespace std;
 
 namespace family
@@ -24,24 +24,22 @@ namespace family
         Tree();
 
         // Init a tree with one person
-        Tree(std::string name);
+        Tree(string name);
 
-        ~Tree()
-        {
+        ~Tree(){}
 
-        }
+        Tree& addFather(string, string);
+        Tree addMother(string, string);
 
-        Tree& addFather(std::string, std::string);
-        Tree addMother(std::string, std::string);
-
-        void display();
-        std::string relation(std::string);
-        std::string find(std::string);
-        Tree remove(std::string);
+        string relation(string);
+        string find(string);
+        Tree remove(string);
 
         void search(person &child ,string name,int i);
-      
         int get_index(string person_name);
+		
+        void display();
+        void display(string,person&,bool);
     };
 
 

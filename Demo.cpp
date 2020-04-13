@@ -10,55 +10,7 @@
 #include <iostream>
 using namespace std;
 
-class list
-{
-	public:
-	     int data_;
-	    list *next;
-	    list *head;
-		list *temp;
-	   	
-		list(int d ):data_(d){}
-        
-		list & add(int n)
-		{
-			
-			next=head;
-			temp=new  list (n);
-			cout<<head->data_;
-			if(head==NULL)
-			{cout<<"-----"<<endl;
-				head=temp;
-				
-				return *this;
-			}
-			if(head->next==NULL)
-			{
-				head->next=temp;
-
-			}
-			else
-			{
-				while (next->next!=NULL)
-				{
-				   next=next->next;
-				}
-				next->next=temp;
-			}
-			return *this;
-		}
-		void print()
-		{
-			temp=head;
-		
-		}
-};
-
 int main() {
-	
-
-
-  
 	family::Tree T ("Yosef"); // Yosef is the "root" of the tree (the youngest person).
 	T.addFather("Yosef", "Yaakov")   // Tells the tree that the father of Yosef is Yaakov.
 	 .addMother("Yosef", "Rachel")   // Tells the tree that the mother of Yosef is Rachel.
@@ -66,7 +18,6 @@ int main() {
 	 .addMother("Yaakov", "Rivka")
 	 .addFather("Isaac", "Avraham")
 	 .addFather("Avraham", "Terah");
-	
 
 	T.display();                        // displays the tree in a human-friendly format.
 
@@ -79,7 +30,7 @@ int main() {
 	cout << T.relation("Yosef") << endl;  // prints "me"
 
 	cout << T.find("mother") << endl;  // prints "Rachel"
-	cout << T.find("great-great-grandfather") << endl;  // prints "Avraham"
+	cout << T.find("great-great-grandfather") << endl;  // prints "Terah"
 	try {
 		cout << T.find("uncle") << endl;  // throws an exception
 	} catch (const exception& ex) {
@@ -88,7 +39,6 @@ int main() {
 
 	T.remove("Avraham"); // removes Avraham and Terah
 	cout << T.relation("Terah") << endl;  // prints "unrelated"
-    cout<<endl;
 
     return 0;
 }

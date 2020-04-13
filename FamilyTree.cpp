@@ -1,33 +1,22 @@
 #include <stdexcept>
-#include <iostream>
-
 #include "FamilyTree.hpp"
-
-#include <string>
-using namespace std;
 
 namespace family
 {
-     Tree::Tree()
-   {
-       
-   }
+    Tree::Tree(){}
    
-   Tree::Tree(string name)
-   { 
+    Tree::Tree(string name)
+    { 
        person *p=new person();
        p->name=name;
-    
        this->child=p;
-    
-   }
+    }
+
 
     Tree& Tree::addFather(string s, string f)
     {
-         
         search(*child,s,1);
 
-   
         person *p=new person();
         p->name=f;
 
@@ -36,48 +25,19 @@ namespace family
         return *this;
     }
 
+
     Tree Tree::addMother(string s, string m)
     {
-       search(*child,s,1);
+        search(*child,s,1);
 
-   
         person *p=new person();
         p->name=m;
 
         pointer->mother=p;
-     
+
         return *this;
     }
 
-    void Tree::display()
-    {
-
-    }
-
-    /*                                        relation
-
-       index=i,
-       gf=grandfather,
-       gm=grandmother,
-       g=great ,
-       g-gf=great-grandfather
-       g-gm=great-grandmother
-    
-                                                       i=1
-                                                      (me)
-                                                   /       \  
-                                                 /          \
-                                               i=2          i=3
-                                             (father)      (mother)
-                                             /    \        /         \
-                                           i=4    i=5    i=6          i=7
-                                         (gf)    (gm)  (gf)          (gm)
-                                       /          /       \              \
-                                    i=8       i=10        13             i=15
-                                (g-gf)      (g-gf)       (g-gm)          (g-gm)   
-
-                                    
-       */
    
     string Tree::relation(string a)
     {
@@ -87,19 +47,18 @@ namespace family
         if(index==2) return "father";
         if(index==3) return "mother";
        
-         
-         string relation="";
-         if(index%2==0) relation="grandfather";
-         else relation="grandmother";
+        string relation="";
+        if(index%2==0) relation="grandfather";
+        else relation="grandmother";
        
-         for(int i=8;i<=index;i=i*2)
-         {
-             relation="great-"+relation;
+        for(int i=8;i<=index;i=i*2)
+        {
+            relation="great-"+relation;
              
-         }
-      
+        }
         return relation;
     }
+
     
     int Tree ::get_index(string person_name)
     {
@@ -110,6 +69,8 @@ namespace family
         if(!pointer)return -1;//if the person is not exsits in the tree
         return pointer->index;
     }
+
+
     string Tree::find(string a)
     {
         
@@ -132,26 +93,21 @@ namespace family
         }
         if(child.name==name)
         {
-     
             this->pointer=&child;
             return;
         }
-         if(child.father!=NULL)
-         {
+        if(child.father!=NULL)
+        {
             search(*child.father,name,(i*2));
-   
-         }
-       
-         if(child.mother!=NULL)
-         {
-              search(*child.mother,name,(i*2)+1);
-                
-         }
-  
-         
-        
+        }
+        if(child.mother!=NULL)
+        {
+            search(*child.mother,name,(i*2)+1);       
+        } 
+
         return ;
     }
+
 
     Tree Tree::remove(string a)
     {
@@ -159,5 +115,47 @@ namespace family
         Tree b;
         return b;
     }
+	
+	
+
+
+
+    //for the tree
+    void Tree::display()
+    {
+        if(child->name != "")
+        {
+            display("", *child,false);
+        }
+        else cout<<"tree is empty"<<endl;
+    }
+
+
+    //for every node
+    void Tree::display(string s, person& node,bool side)
+    {
+        if(node.name!="")
+        {
+
+            cout<<s;
+            cout << (side ? "├──" : "└──" );
+
+            // print the value of the node
+            cout<<node.name<<endl;
+
+            // enter the next tree level - left and right
+            if(node.mother!=NULL)
+            {
+                display( s + (side ? "│   " : "    "),*node.mother,true);
+            }
+            if(node.father!=NULL)
+            {
+                display( s + (side ? "│   " : "    "),*node.father,false);
+            } 
+        }
+
+    }
+
+
 
 }
