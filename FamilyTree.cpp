@@ -4,6 +4,7 @@
 namespace family
 {
     Tree::Tree(){}
+    Tree::~Tree(){}
    
     Tree::Tree(string name)
     { 
@@ -109,11 +110,9 @@ namespace family
     }
 
 
-    Tree Tree::remove(string a)
+    void Tree::remove(string a)
     {
 
-        Tree b;
-        return b;
     }
 	
 	
