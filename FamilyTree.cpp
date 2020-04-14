@@ -7,13 +7,19 @@ using namespace std;
 namespace family
 {
     //empty constructor
-    Tree::Tree(){}
+    Tree::Tree()
+    {
+        child = NULL;
+        pointer = NULL;
+    }
+
 
     //constructor
     Tree::Tree(string name)
     { 
        child = new person(name);
     }
+
 
     //destractor
     Tree::~Tree()
@@ -25,19 +31,26 @@ namespace family
     //destractor for every node
     void Tree::destroyTree(person* node)
     {
-        if (node!=NULL)
+        if (node != NULL)
         {
-            if(node->father!=NULL)
+            if(node->father != NULL)
             {
                 destroyTree(node->father);
             }
-            if(node->mother!=NULL)
+            if(node->mother != NULL)
             {
                 destroyTree(node->mother);
             }
-            //cout<<"remove node"<<endl;
             delete node;
         }
+    }
+
+
+    void Tree::remove(std::string n)
+    {
+        search(*child, n, 1);
+        destroyTree(pointer);
+        delete(pointer);
     }
 
 
@@ -68,18 +81,19 @@ namespace family
         return *this;
     }
 
+
    
 
     string Tree::relation(string a)
     {
         int index=get_index(a);
         if(index==-1)return "unrelated";
-        if(index==1)  return "me";  
-        if(index==2) return "father";
-        if(index==3) return "mother";
+        if(index==1)return "me";  
+        if(index==2)return "father";
+        if(index==3)return "mother";
        
         string relation="";
-        if(index%2==0) relation="grandfather";
+        if(index%2==0)relation="grandfather";
         else relation="grandmother";
        
         for(int i=8;i<=index;i=i*2)
@@ -109,16 +123,12 @@ namespace family
         
         return "aaa";
     }
-    /*
-     The function gets name from the tree and updates that pointr will point it out
-    For starters the function gets the root and name we want to find
-    With the help of a recursive search (search preorder) 
-    in the tree as soon as we find the person we will update the pointer to point it out
-    */
+
+
+
     void Tree::search(person & child ,string name,int i)
     {
          child.index=i;
-        //  cout<<child.name<<"---->";
         if(child.name=="")
         {
           
@@ -142,22 +152,11 @@ namespace family
     }
 
 
-
-
-    void Tree::remove(string a)
-    {
-
-    }
-	
-	
-
-
-    //for the tree
     void Tree::display()
     {
         if(child->name != "")
         {
-            display("", *child,false);
+            display("",child,false);
         }
         else cout<<"tree is empty"<<endl;
     }
@@ -165,30 +164,27 @@ namespace family
 
 
     //for every node
-    void Tree::display(string s, person& node,bool side)
+    void Tree::display(string s, person* node,bool side)
     {
-        if(node.name!="")
+        if(node != NULL)
         {
-
             cout<<s;
             cout << (side ? "├──" : "└──" );
 
             // print the value of the node
-            cout<<node.name<<endl;
+            cout<<node->name<<endl;
 
             // enter the next tree level - left and right
-            if(node.mother!=NULL)
+            if(node->mother!=NULL)
             {
-                display( s + (side ? "│   " : "    "),*node.mother,true);
+                display( s + (side ? "│   " : "    "),node->mother,true);
             }
-            if(node.father!=NULL)
+            if(node->father!=NULL)
             {
-                display( s + (side ? "│   " : "    "),*node.father,false);
+                display( s + (side ? "│   " : "    "),node->father,false);
             } 
         }
-
     }
-
 
 
 }

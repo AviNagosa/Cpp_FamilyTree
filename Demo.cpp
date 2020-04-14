@@ -18,7 +18,6 @@ int main() {
 	 .addMother("Yaakov", "Rivka")
 	 .addFather("Isaac", "Avraham")
 	 .addFather("Avraham", "Terah");
-
 	T.display();                        // displays the tree in a human-friendly format.
 
 	cout << T.relation("Yaakov") << endl;  // prints "father"

@@ -35,20 +35,21 @@ namespace family
         Tree();
         Tree(std::string name);
         ~Tree();
-        void destroyTree(person*);
 
         Tree& addFather(std::string, std::string);
         Tree& addMother(std::string, std::string);
 
         std::string relation(std::string);
         std::string find(std::string);
-        void remove(std::string);
 
-        void search(person &child ,std::string name,int i);
+        void remove(std::string);
+        void destroyTree(person*);
+
+        void search(person & child ,std::string name,int i);
         int get_index(std::string person_name);
 		
         void display();
-        void display(std::string,person&,bool);
+        void display(std::string, person*, bool);
     };
 
 
