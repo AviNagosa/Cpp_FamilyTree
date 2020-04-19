@@ -4,6 +4,23 @@
 
 using namespace std;
 
+class MyException : public std::exception
+{
+    string s;
+    public:
+
+    MyException(const string& name)
+    {
+        s = "Error!!"+name+" already have a father";
+    }
+
+	const char * what () const throw ()
+    {
+    	return s.c_str();
+    } 
+
+};
+
 namespace family
 {
     //empty constructor
@@ -61,9 +78,11 @@ namespace family
 
         person *p = new person();
         p->name=f;
-
-        pointer->father=p;
-     
+        if(pointer->father != NULL)
+        {
+            throw MyException(s);
+        }
+        else pointer->father=p;
         return *this;
     }
 
@@ -76,7 +95,11 @@ namespace family
         person *p = new person();
         p->name=m;
 
-        pointer->mother=p;
+        if(pointer->mother != NULL)
+        {
+            throw MyException(s);
+        }
+        else pointer->mother=p;
 
         return *this;
     }
@@ -188,3 +211,4 @@ namespace family
 
 
 }
+
