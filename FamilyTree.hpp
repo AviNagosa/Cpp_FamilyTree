@@ -35,7 +35,6 @@ namespace family
         Tree();
         Tree(std::string name);
         ~Tree();
-        void destroyTree(person*);
 
         Tree& addFather(std::string, std::string);
         Tree& addMother(std::string, std::string);
@@ -46,11 +45,16 @@ namespace family
         void remove(std::string);
     
 
-        void search(person &child ,std::string name,int i);
+      
+        void destroyTree(person*);
+
+        void search(person & child ,std::string name,int i);
         int get_index(std::string person_name);
 		
         void display();
-        void display(std::string,person&,bool);
+        void display(std::string, person &p, bool b);
+        void pointer_by_index(int index);
+        void pointer_by_index(int index,person &p);
     };
 
 

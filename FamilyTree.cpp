@@ -36,10 +36,24 @@ namespace family
             {
                 destroyTree(node->mother);
             }
-            //cout<<"remove node"<<endl;
+
+           /////////////////////////////////////////
+            pointer_by_index((node->index/2));//point to the son
+            if(node->index%2==0)// check if to delete the father or mother
+            {
+                pointer->father=NULL;
+            }
+            else
+            {
+                pointer->mother=NULL;
+            }
+       ///////////////////////////////////////////////////     
+                 
             
             delete node;
-            
+
+         
+           
         }
       
     }
@@ -128,15 +142,27 @@ namespace family
 
 
 
-    // int Tree::get_index(string person_name)
-    // {
-    //     pointer=NULL;//Updating that the pointer is not currently pointing to anything
-        
-    //     search(*child,person_name,1);
-
-    //     if(!pointer)return -1;//if the person is not exsits in the tree
-    //     return pointer->index;
-    // }
+    void Tree::pointer_by_index(int index)
+    {
+        this->pointer=NULL;
+       pointer_by_index(index,*child);
+    }
+    void Tree::pointer_by_index(int index ,person &child)
+    {
+       if(child.index==index)
+       {
+          this->pointer=&child;
+          return;
+       }
+       if(child.father!=NULL)
+       {
+           pointer_by_index(index,*child.father);
+       }
+       if(child.mother!=NULL)
+       {
+           pointer_by_index(index,*child.mother);
+       }
+    }
 
 
 
