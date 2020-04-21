@@ -9,7 +9,7 @@ class MyException : public std::exception
 {
     string s;
     public:
-    MyException(){ s = "Exception!!! this person aleady have parent father/mother";}
+    MyException(){ s = "Exception!!! this person aleady have parent father/mother/notFound";}
     MyException(const string& name){ s = "The tree cannot handle the '"+name+"' relation";}
 	const char * what () const throw (){ return s.c_str();} 
 };
@@ -56,6 +56,8 @@ namespace family
         //find child node 
         search(*child,s,1);
 
+        //the person not in the tree
+        if(pointer == NULL) throw MyException();
         //already have a father throw exception otherwise add the father
         if(pointer->father != NULL) throw MyException();
         else
@@ -79,7 +81,7 @@ namespace family
         } 
         pointer->father->rel = relation;
 
-        pointer=NULL;
+        pointer = NULL;
         return *this;
     }
 
@@ -91,8 +93,10 @@ namespace family
         //find child node
         search(*child,s,1);
 
+        //the person not in the tree
+        if(pointer == NULL) throw MyException();
         //already have a mother throw exception otherwise add the mother
-        if(pointer->mother != NULL) throw MyException();
+        if(pointer->mother != NULL || pointer == NULL) throw MyException();
         else
         {
             pointer->mother = new person(m, this->pointer->index*2+1);
@@ -123,18 +127,17 @@ namespace family
    
     string Tree::relation(string a)
     {
-        this->pointer=NULL;
+        this->pointer = NULL;
  
         search(*child,a,1);
       
-        if(this->pointer==NULL)
-        {    
-            pointer=NULL;
+        if(this->pointer == NULL)
+        {   
             return "unrelated";
         }
   
-        string s=pointer->rel;
-        pointer=NULL;
+        string s = pointer->rel;
+        pointer = NULL;
         return s;
     }
 
@@ -143,27 +146,26 @@ namespace family
     string Tree::find(string a)
     {
         find(*this->child, a);
-        if(this->pointer==NULL)
-        {    
-            pointer=NULL;
+        if(this->pointer == NULL)
+        {   
             throw MyException(a);
         }
-        string s=pointer->name;
-        pointer=NULL;
+        string s = pointer->name;
+        pointer = NULL;
         return s;
     }
 
 
     void Tree::find(person& child, string rel)
     {
-        if(child.rel=="") return;
-        if(child.rel==rel)
+        if(child.rel == "") return;
+        if(child.rel == rel)
         {
             this->pointer = &child;
             return;
         }
-        if(child.father!=NULL)find(*child.father,rel);
-        if(child.mother!=NULL)find(*child.mother,rel);       
+        if(child.father != NULL)find(*child.father,rel);
+        if(child.mother != NULL)find(*child.mother,rel);       
         return;
     }
     
@@ -194,6 +196,7 @@ namespace family
         //search for the root of the subtree
         search(*child ,subtree ,-1);
 
+        if(pointer == NULL) throw string("Error!!! this node not in the tree");
         //contain the index of the root subtree and his son index 
         int indexSon =  (pointer->index)/2, indexCurr = pointer->index;
 
@@ -204,9 +207,10 @@ namespace family
         remove(indexSon, *child);  
         if(indexCurr%2==0) pointer->father = NULL;  //check if to delete the father or mother
         else pointer->mother = NULL;
-        
+        pointer = NULL;
     }
-
+    
+    //get the son pointer to the parent. otherwise he will point to garbage
     void Tree::remove(int index, person& child)
     {
         if(child.index == index)
