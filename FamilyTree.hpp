@@ -5,24 +5,32 @@ namespace family
 {
     struct person
     {
-      std::string name="",rel="";
-      person* father;
-      person* mother;
-      int index=1;
+        std::string name, rel = "";
+        person* father;
+        person* mother;
+        int index = 1;
 
-      //empty constructor
-      person()
-      {
-          name = "";
-          father = mother = NULL;
-      }
+        //empty constructor
+        person()
+        {
+            name = "";
+            father = mother = NULL;
+        }
 
-      //constructor
-      person(std::string n)
-      {
-          name = n;
-          father = mother = NULL;
-      }
+        //constructor
+        person(std::string n)
+        {
+            name = n;
+            father = mother = NULL;
+        }
+
+        //constructor
+        person(std::string n, int i)
+        {
+            name = n;
+            index = i;
+            father = mother = NULL;
+        }
     };
     
 
@@ -41,20 +49,17 @@ namespace family
 
         std::string relation(std::string);
         std::string find(std::string);
-        void find(person & p,std:: string s);
+        void find(person&, std::string);
         void remove(std::string);
-    
+        void remove(int,person&);
 
-      
         void destroyTree(person*);
 
-        void search(person & child ,std::string name,int i);
-        int get_index(std::string person_name);
+        void search(person&, std::string, int);
+        int get_index(std::string);
 		
         void display();
-        void display(std::string, person &p, bool b);
-        void pointer_by_index(int index);
-        void pointer_by_index(int index,person &p);
+        void display(std::string, person*, bool);
     };
 
 
