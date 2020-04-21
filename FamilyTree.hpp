@@ -5,7 +5,7 @@ namespace family
 {
     struct person
     {
-      std::string name;
+      std::string name="",rel="";
       person* father;
       person* mother;
       int index=1;
@@ -42,7 +42,9 @@ namespace family
 
         std::string relation(std::string);
         std::string find(std::string);
+        void find(person & p,std:: string s);
         void remove(std::string);
+    
 
         void search(person &child ,std::string name,int i);
         int get_index(std::string person_name);

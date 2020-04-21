@@ -13,6 +13,7 @@ namespace family
     Tree::Tree(string name)
     { 
        child = new person(name);
+       child->rel="me";
     }
 
     //destractor
@@ -36,8 +37,11 @@ namespace family
                 destroyTree(node->mother);
             }
             //cout<<"remove node"<<endl;
+            
             delete node;
+            
         }
+      
     }
 
 
@@ -48,9 +52,27 @@ namespace family
 
         person *p = new person();
         p->name=f;
-
+        p->index=this->pointer->index*2;
         pointer->father=p;
-     
+         
+  
+        string relation=""; 
+        if(p->index==2) relation= "father";
+        else if(p->index==3) relation= "mother";
+        else
+        {
+
+           if(p->index%2==0) relation="grandfather";
+           else relation="grandmother";
+       
+           for(int i=8;i<=p->index;i=i*2)
+           {
+            relation="great-"+relation;
+             
+            }
+        } 
+        p->rel=relation;
+            pointer=NULL;
         return *this;
     }
 
@@ -62,9 +84,26 @@ namespace family
 
         person *p = new person();
         p->name=m;
-
+        p->index=this->pointer->index*2+1;
         pointer->mother=p;
-
+         
+        
+        string relation="";
+        if(p->index==2) relation= "father";
+        else if(p->index==3) relation= "mother";
+        else
+        {
+           if(p->index%2==0) relation="grandfather";
+           else relation="grandmother";
+       
+           for(int i=8;i<=p->index;i=i*2)
+           {
+            relation="great-"+relation;
+             
+            }
+        } 
+        p->rel=relation;
+       pointer=NULL;
         return *this;
     }
 
@@ -72,43 +111,76 @@ namespace family
 
     string Tree::relation(string a)
     {
-        int index=get_index(a);
-        if(index==-1)return "unrelated";
-        if(index==1)  return "me";  
-        if(index==2) return "father";
-        if(index==3) return "mother";
-       
-        string relation="";
-        if(index%2==0) relation="grandfather";
-        else relation="grandmother";
-       
-        for(int i=8;i<=index;i=i*2)
-        {
-            relation="great-"+relation;
-             
-        }
-        return relation;
+        this->pointer=NULL;
+ 
+       search(*child,a,1);
+      
+      if(this->pointer==NULL)
+      {    
+         pointer=NULL;
+        return "unrelated";
+      }
+  
+       string s=pointer->rel;
+       pointer=NULL;
+        return s;
     }
 
 
 
-    int Tree::get_index(string person_name)
-    {
-        pointer=NULL;//Updating that the pointer is not currently pointing to anything
+    // int Tree::get_index(string person_name)
+    // {
+    //     pointer=NULL;//Updating that the pointer is not currently pointing to anything
         
-        search(*child,person_name,1);
+    //     search(*child,person_name,1);
 
-        if(!pointer)return -1;//if the person is not exsits in the tree
-        return pointer->index;
-    }
+    //     if(!pointer)return -1;//if the person is not exsits in the tree
+    //     return pointer->index;
+    // }
 
 
 
     string Tree::find(string a)
     {
-        
-        return "aaa";
+        find(*this->child,a);
+        if(this->pointer==NULL)
+      {    
+         pointer=NULL;
+        return "need throw exception";
+      }
+  
+        string s=pointer->name;
+        pointer=NULL;
+        return s;
     }
+
+    void Tree::find(person &child,string rel)
+    {
+       
+  
+        if(child.rel=="")
+        {
+          
+            return ;
+        }
+        if(child.rel==rel)
+        {
+            this->pointer=&child;
+            return;
+        }
+        if(child.father!=NULL)
+        {
+            find(*child.father,rel);
+        }
+        if(child.mother!=NULL)
+        {  
+            find(*child.mother,rel);       
+        } 
+        
+        
+        return ;
+    }
+    
     /*
      The function gets name from the tree and updates that pointr will point it out
     For starters the function gets the root and name we want to find
@@ -117,8 +189,13 @@ namespace family
     */
     void Tree::search(person & child ,string name,int i)
     {
-         child.index=i;
-        //  cout<<child.name<<"---->";
+      
+         if(i>0)
+         {
+                  child.index=i;
+         }
+        
+  
         if(child.name=="")
         {
           
@@ -134,10 +211,11 @@ namespace family
             search(*child.father,name,(i*2));
         }
         if(child.mother!=NULL)
-        {
+        {  
             search(*child.mother,name,(i*2)+1);       
         } 
-
+        
+        
         return ;
     }
 
@@ -146,11 +224,13 @@ namespace family
 
     void Tree::remove(string a)
     {
-
+       
+        search(*child ,a ,-1);
+        destroyTree(this->pointer);
+      
     }
 	
-	
-
+    
 
     //for the tree
     void Tree::display()

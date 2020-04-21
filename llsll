@@ -1,0 +1,17 @@
+[33mcommit aa0d400634b48ca2eb53971388f7455349ec6f6d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: salamonsamay <salamon.salamon0@gmail.com>
+Date:   Sun Apr 12 14:46:14 2020 +0300
+
+    update:relation,struct child,get index
+
+[33mcommit ec0bbaaab3c3a02049e604844b9ac10e3255e582[m
+Author: salamonsamay <salamon.salamon0@gmail.com>
+Date:   Sat Apr 11 13:23:04 2020 +0300
+
+    update add mother/father
+
+[33mcommit fdf9e83df66f2f86034cbb6689fb9399d58c193a[m
+Author: AviNagosa <avinagossa91@gmail.com>
+Date:   Fri Apr 3 19:25:53 2020 +0300
+
+    first commit
