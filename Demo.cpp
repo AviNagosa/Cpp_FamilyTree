@@ -9,7 +9,7 @@
 
 #include <iostream>
 using namespace std;
-
+/*
 int main() {
 	family::Tree T ("Yosef"); // Yosef is the "root" of the tree (the youngest person).
 	try
@@ -47,3 +47,4 @@ int main() {
 
     return 0;
 }
+*/
