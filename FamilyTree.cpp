@@ -59,7 +59,11 @@ namespace family
         //the person not in the tree
         if(pointer == NULL) throw MyException();
         //already have a father throw exception otherwise add the father
-        if(pointer->father != NULL) throw MyException();
+        if(pointer->father != NULL)
+        {
+            pointer = NULL;
+            throw MyException();
+        }
         else
         {
             pointer->father = new person(f, this->pointer->index*2);
@@ -96,7 +100,11 @@ namespace family
         //the person not in the tree
         if(pointer == NULL) throw MyException();
         //already have a mother throw exception otherwise add the mother
-        if(pointer->mother != NULL || pointer == NULL) throw MyException();
+        if(pointer->mother != NULL)
+        {
+            pointer = NULL;
+            throw MyException();
+        }
         else
         {
             pointer->mother = new person(m, this->pointer->index*2+1);
@@ -117,7 +125,6 @@ namespace family
             }
         } 
         pointer->mother->rel = relation;
-
         pointer = NULL;
         return *this;
     }
@@ -197,6 +204,11 @@ namespace family
         search(*child ,subtree ,-1);
 
         if(pointer == NULL) throw string("Error!!! this node not in the tree");
+        if(pointer->rel=="me")
+        {
+            pointer = NULL;
+            throw string("Error!!! this node not in the tree");
+        }
         //contain the index of the root subtree and his son index 
         int indexSon =  (pointer->index)/2, indexCurr = pointer->index;
 
