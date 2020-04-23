@@ -17,14 +17,12 @@ namespace family
             father = mother = NULL;
         }
 
-        //constructor
         person(std::string n)
         {
             name = n;
             father = mother = NULL;
         }
 
-        //constructor
         person(std::string n, int i)
         {
             name = n;
@@ -43,24 +41,18 @@ namespace family
         Tree();
         Tree(std::string name);
         ~Tree();
-
+        
         Tree& addFather(std::string, std::string);
         Tree& addMother(std::string, std::string);
-
         std::string relation(std::string);
         std::string find(std::string);
         void find(person&, std::string);
         void remove(std::string);
         void remove(int,person&);
-
         void destroyTree(person*);
-
-        void search(person&, std::string, int);
-        int get_index(std::string);
-		
+        void search(person&, std::string, int);	
         void display();
         void display(std::string, person*, bool);
     };
-
 
 }

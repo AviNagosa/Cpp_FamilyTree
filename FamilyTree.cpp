@@ -33,6 +33,7 @@ namespace family
     } 
 
 
+
     //destractor for every node
     void Tree::destroyTree(person* node)
     {
@@ -51,25 +52,24 @@ namespace family
     }
 
 
+
+    //add a father to exists person
     Tree& Tree::addFather(string s, string f)
     {
-        //find child node 
+        //find the son
         search(*child,s,1);
 
-        //the person not in the tree
-        if(pointer == NULL) throw MyException();
-        //already have a father throw exception otherwise add the father
-        if(pointer->father != NULL)
+        //son not exists or already have a father throw exception
+        if(pointer == NULL) throw MyException();   
+        if(pointer->father != NULL)     
         {
             pointer = NULL;
             throw MyException();
         }
-        else
-        {
-            pointer->father = new person(f, this->pointer->index*2);
-        } 
-        
-        //add person relation
+        //create person
+        else pointer->father = new person(f, this->pointer->index*2);     
+         
+        //create the relation from the root to the curr person
         string relation = ""; 
         if(pointer->father->index == 2) relation = "father";
         else if(pointer->father->index == 3) relation = "mother";
@@ -91,26 +91,24 @@ namespace family
 
 
 
-
+    //add a mother to exists person
     Tree& Tree::addMother(string s, string m)
     {
-        //find child node
+        //find the son
         search(*child,s,1);
 
-        //the person not in the tree
+        //son not exists or already have a mother throw exception
         if(pointer == NULL) throw MyException();
-        //already have a mother throw exception otherwise add the mother
         if(pointer->mother != NULL)
         {
             pointer = NULL;
             throw MyException();
         }
-        else
-        {
-            pointer->mother = new person(m, this->pointer->index*2+1);
-        } 
+        //create person
+        else pointer->mother = new person(m, this->pointer->index*2+1);
+        
        
-       //add person relation
+        //create the relation from the root to the curr person
         string relation = "";
         if(pointer->mother->index == 2) relation = "father";
         else if(pointer->mother->index == 3) relation = "mother";
@@ -131,38 +129,36 @@ namespace family
 
 
 
-   
+   //name and return his relation to the root 
     string Tree::relation(string a)
     {
-        this->pointer = NULL;
- 
+        //find the person
         search(*child,a,1);
-      
-        if(this->pointer == NULL)
-        {   
-            return "unrelated";
-        }
-  
-        string s = pointer->rel;
-        pointer = NULL;
+        //person not in the tree
+        if(this->pointer == NULL) return "unrelated";
+        //person exists
+        string s = pointer->rel;     //save the relation
+        pointer = NULL;      //for later use
         return s;
     }
 
 
 
+    //get relation and return the person name with that relation
     string Tree::find(string a)
     {
+        //search for the relation
         find(*this->child, a);
-        if(this->pointer == NULL)
-        {   
-            throw MyException(a);
-        }
-        string s = pointer->name;
-        pointer = NULL;
+        //person with that relation is not exists
+        if(this->pointer == NULL) throw MyException(a);
+        //person exists
+        string s = pointer->name;      //save his name
+        pointer = NULL;              //for later use
         return s;
     }
 
 
+    //helper method for recursion search on the tree
     void Tree::find(person& child, string rel)
     {
         if(child.rel == "") return;
@@ -171,17 +167,14 @@ namespace family
             this->pointer = &child;
             return;
         }
-        if(child.father != NULL)find(*child.father,rel);
-        if(child.mother != NULL)find(*child.mother,rel);       
+        if(child.father != NULL) find(*child.father,rel);
+        if(child.mother != NULL) find(*child.mother,rel);       
         return;
     }
-    
-    /*
-     The function gets name from the tree and updates that pointr will point it out
-    For starters the function gets the root and name we want to find
-    With the help of a recursive search (search preorder) 
-    in the tree as soon as we find the person we will update the pointer to point it out
-    */
+
+
+
+    //get name,root and number(for later use) and find by recursion person
     void Tree::search(person& child, string name, int i)
     {
         if(i>0)child.index = i;
@@ -198,13 +191,15 @@ namespace family
 
 
 
+    //get person name and remove his subtree including him
     void Tree::remove(string subtree)
     {
         //search for the root of the subtree
         search(*child ,subtree ,-1);
 
+        //this person not in the tree
         if(pointer == NULL) throw string("Error!!! this node not in the tree");
-        if(pointer->rel=="me")
+        if(pointer->rel == "me")
         {
             pointer = NULL;
             throw string("Error!!! this node not in the tree");
@@ -215,13 +210,14 @@ namespace family
         //remove the subtree
         destroyTree(this->pointer); 
 
-        //the son who point on the subtree root point to NULL
+        //the son who point on the subtree root point to null
         remove(indexSon, *child);  
-        if(indexCurr%2==0) pointer->father = NULL;  //check if to delete the father or mother
+        if(indexCurr%2 == 0) pointer->father = NULL;  //check if to delete the father or mother
         else pointer->mother = NULL;
         pointer = NULL;
     }
     
+
     //get the son pointer to the parent. otherwise he will point to garbage
     void Tree::remove(int index, person& child)
     {
@@ -233,7 +229,6 @@ namespace family
         if(child.father!=NULL) remove(index,*child.father);
         if(child.mother!=NULL) remove(index,*child.mother);
     }
-
 
 
 
